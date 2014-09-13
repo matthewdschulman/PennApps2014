@@ -29,11 +29,15 @@ class UsersController < ApplicationController
     flash[:success] = "User deleted."
     redirect_to users_url
   end
+
+
+
+  
   
   def create
-    add_user(user_params[:bank], user_params[:bank_username], user_params[:bank_password], user_params[:email])
-    #do the bank 
+    debugger
     @user = User.new(user_params)
+    json_response = add_user(user_params[:bank], user_params[:bank_username], user_params[:bank_password], user_params[:email])
     if @user.save
       sign_in @user
       flash[:success] = "Welcome to FoodFeed!"
@@ -47,13 +51,24 @@ class UsersController < ApplicationController
     post('/connect', type, username, password, email)
     debugger
     if @response.code == 201 #mfa
-      @response#if JSON.parse(@response)["type"] == "questions"
+      @user.update_attribute(:access_token => @response.access_token)
+      mfa_post(@response)
     elsif @response.code == 200 #we're good
+      @user.update_attribute(:access_token => @response.access_token)
       @response
     else #diagnose the error
-      flash[:error] = "Error with authentication"
+      if !JSON.parse(@response)["message"].nil?
+        flash[:error] = JSON.parse(@response)["message"]
+      else 
+        flash[:error] = "Error with authentication"
+      end
+      redirect_to root_url
     end
-    @response
+  end
+
+  def mfa_post(response)
+    #get user's answer to current mfa question
+    #mfa post
   end
 
   def post(path, type, username, password, email)
@@ -93,7 +108,7 @@ class UsersController < ApplicationController
             def user_params
               params.require(:user).permit(:name, :email, :password,
                                            :password_confirmation,
-                                           :phone_number, :bank, :bank_username, :bank_password)
+                                           :phone_number)
 
 
 
