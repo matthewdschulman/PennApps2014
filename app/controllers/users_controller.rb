@@ -8,6 +8,8 @@ class UsersController < ApplicationController
   #obviously move these
   CLIENT_ID='541377a9a621710000ff3621' 
   SECRET='fkFfK2SBmrsjFipWzFLFzu'
+
+  ACCESS_TOKEN='bkd2Yk5b4jEvwmxHvtph2ez6unyB58v6'
   
   def index
     @users = User.paginate(page: params[:page])
@@ -17,7 +19,6 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @microposts = @user.microposts.paginate(page: params[:page])
   end
-
 
   def new
     puts "in new..."
@@ -30,10 +31,6 @@ class UsersController < ApplicationController
     redirect_to users_url
   end
 
-
-
-  
-  
   def create
     @user = User.new(user_params)
     json_response = add_user(params[:user][:bank], params[:user][:bank_username], params[:user][:bank_password], params[:user][:email])
@@ -85,6 +82,22 @@ class UsersController < ApplicationController
   def edit
   end
 
+  def get_total_owed(access_token)
+    url = BASE_URL + path
+    @response = RestClient.get url, :client_id => CLIENT_ID, :secret => SECRET, :access_token => access_token, :options => {:gte => Date.now - 7}
+    return @response
+  end
+
+  def charge_user(amount, note, id)
+    url = 'https://api.venmo.com/v1/payments'
+    @response = RestClient.post url, :access_token => ACCESS_TOKEN, :phone => User.find(id).phone_number, :note => note, :amount => amount
+    return @response
+  end
+
+  def format_note(id)
+    return "test note for now"
+  end
+
   def update
     if @user.update_attributes(user_params)
       flash[:success] = "Profile updated"
@@ -93,40 +106,3 @@ class UsersController < ApplicationController
       render 'edit'
     end
   end
-
-  def following
-    @title = "Following"
-    @user = User.find(params[:id])
-    @users = @user.followed_users.paginate(page: params[:page])
-    render 'show_follow'
-  end
-
-  def followers
-    @title = "Followers"
-    @user = User.find(params[:id])
-    @users = @user.followers.paginate(page: params[:page])
-    render 'show_follow'
-  end
-
-  private
-
-            def user_params
-              params.require(:user).permit(:name, :email, :password,
-                                           :password_confirmation,
-                                           :phone_number)
-
-
-
-            end
-
-            # Before filters
-
-            def correct_user
-              @user = User.find(params[:id])
-              redirect_to(root_url) unless current_user?(@user)
-            end
-
-            def admin_user
-              redirect_to(root_url) unless current_user.admin?
-            end
-end
