@@ -35,12 +35,14 @@ class UsersController < ApplicationController
   
   
   def create
-    debugger
     @user = User.new(user_params)
-    json_response = add_user(user_params[:bank], user_params[:bank_username], user_params[:bank_password], user_params[:email])
+    json_response = add_user(params[:user][:bank], params[:user][:bank_username], params[:user][:bank_password], params[:user][:email])
+    
+    @user.update_attribute(:most_recent_plaid_sync, json_response)
+    
     if @user.save
       sign_in @user
-      flash[:success] = "Welcome to FoodFeed!"
+      flash[:success] = "Welcome to GoodCents!"
       redirect_to @user
     else
       render 'new'
@@ -49,12 +51,15 @@ class UsersController < ApplicationController
 
   def add_user(type, username, password, email)
     post('/connect', type, username, password, email)
-    debugger
     if @response.code == 201 #mfa
-      @user.update_attribute(:access_token => @response.access_token)
+      
+      @user.update_attribute(:access_token, JSON.parse(@response)["access_token"])
+      
       mfa_post(@response)
+      
+      @response #temporary!!! 
     elsif @response.code == 200 #we're good
-      @user.update_attribute(:access_token => @response.access_token)
+      @user.update_attribute(:access_token, JSON.parse(@response)["access_token"])
       @response
     else #diagnose the error
       if !JSON.parse(@response)["message"].nil?
