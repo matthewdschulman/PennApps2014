@@ -453,10 +453,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    json_response = post("/connect", params[:user][:bank], params[:user][:bank_username], params[:user][:bank_password], params[:user][:email])    
-    @user.update_attribute(:most_recent_plaid_sync, json_response)
-    #delete the next line after jeff finishes his mfa stuff
-    @user.update_attribute(:most_recent_plaid_sync, SAMPLE_JSON_RESPONSE_STR)
+    @user.update_attribute(:most_recent_plaid_sync, localStorage.get("response_sync"))
     if @user.save
       sign_in @user
       flash[:success] = "Welcome to GoodCents!"
@@ -483,6 +480,7 @@ class UsersController < ApplicationController
         render json: obj
       end
     elsif @response.code == 200 #we're good
+      localStorage.setItem("response_sync", @response);
       obj = {}
       obj["code"] = 200
       obj["access_token"] = JSON.parse(@response)["access_token"]
@@ -494,6 +492,36 @@ class UsersController < ApplicationController
       obj["resolve"] = JSON.parse(@response)["resolve"]
       render json: obj
     end
+  end
+
+  def mfa_step
+    mfa = params[:mfa]
+    access_token = params[:access_token]
+    url = BASE_URL + '/step'
+    @response = RestClient.post url, :client_id => CLIENT_ID, :secret => SECRET, :mfa => mfa, ,:access_token => access_token
+     post('/connect', type, username, password, email)
+    if @response.code == 201 #mfa        
+      mfaType = JSON.parse(@response)["type"]
+      if mfaType == "questions"
+        obj = {}
+        obj["code"] = 201
+        obj["type"] = "questions"
+        obj["question"] = JSON.parse(@response)["mfa"][0]["question"]
+        obj["access_token"] = JSON.parse(@response)["access_token"]
+        render json: obj
+      end
+    elsif @response.code == 200 #we're good
+      localStorage.setItem("response_sync", @response);
+      obj = {}
+      obj["code"] = 200
+      obj["access_token"] = JSON.parse(@response)["access_token"]
+      render json: obj
+    else #diagnose the error
+      obj = {}
+      obj["code"] = @response.code
+      obj["message"] = JSON.parse(@response)["message"]
+      obj["resolve"] = JSON.parse(@response)["resolve"]
+      render json: obj
   end
 
   def post(path, type, username, password, email)
