@@ -11,7 +11,11 @@
 	    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	    <![endif]-->
     </head>
-    <body>
+	<% if !signed_in? %>
+	<body style="background:url('assets\Leaves.jpg') no-repeat;background-size:100%">
+	  <% else %>
+	<body>
+	  <% end %>
         <%= render 'layouts/header' %>
         <div class ="container" style="margin-top:60px">
             <% flash.each do |key, value| %>

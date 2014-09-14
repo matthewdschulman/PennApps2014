@@ -13,74 +13,48 @@ class UsersController < ApplicationController
   SAMPLE_JSON_RESPONSE_STR = '{
   "accounts": [
     {
-      "_id": "5414d49a62f3e9565f713745",
-      "_item": "5414d42462f3e9565f71373f",
-      "_user": "5414d42362f3e9565f71373e",
+      "_id": "54146a3a52575ff861e1e800",
+      "_item": "5414695162f3e9565f712d48",
+      "_user": "5414695062f3e9565f712d47",
       "balance": {
-        "current": 7526.85
+        "available": 8359.35,
+        "current": 8359.35
       },
       "institution_type": "bofa",
       "meta": {
         "official_name": "BofA Core Checking",
-        "number": "0430",
-        "name": "BofA Core Checking - 0430",
+        "number": "2150",
+        "name": "BofA Core Checking - 2150",
         "limit": null
       },
       "type": "depository"
+    },
+    {
+      "_id": "54146a3a52575ff861e1e801",
+      "_item": "5414695162f3e9565f712d48",
+      "_user": "5414695062f3e9565f712d47",
+      "balance": {
+        "available": 254.14,
+        "current": 254.14
+      },
+      "institution_type": "bofa",
+      "meta": {
+        "official_name": "BankAmericard Cash Rewards Platinum Plus Visa",
+        "number": "0479",
+        "name": "BankAmericard Cash Rewards Platinum Plus Visa - 0479",
+        "limit": 3000
+      },
+      "type": "credit"
     }
   ],
   "transactions": [
     {
-      "_account": "5414d49a62f3e9565f713745",
-      "_entity": "5414d49a62f3e9565f713746",
-      "_id": "5414d49b62f3e9565f71375b",
-      "amount": 2.5,
+      "_account": "54146a3a52575ff861e1e800",
+      "_entity": "54146a3a52575ff861e1e802",
+      "_id": "54146a3d52575ff861e1e86b",
+      "amount": 7,
       "date": "2014-09-12",
-      "name": "Bank Xpress",
-      "meta": {
-        "location": {}
-      },
-      "pending": false,
-      "score": {
-        "master": 0
-      },
-      "type": {
-        "primary": "unresolved"
-      },
-      "category": [
-        "Bank Fees"
-      ],
-      "category_id": "537426b570d8a0ac65000001"
-    },
-    {
-      "_account": "5414d49a62f3e9565f713745",
-      "_entity": "5414d49a62f3e9565f713747",
-      "_id": "5414d49b62f3e9565f71375a",
-      "amount": 2.5,
-      "date": "2014-09-12",
-      "name": "Bank Xpress",
-      "meta": {
-        "location": {}
-      },
-      "pending": false,
-      "score": {
-        "master": 0
-      },
-      "type": {
-        "primary": "unresolved"
-      },
-      "category": [
-        "Bank Fees"
-      ],
-      "category_id": "537426b570d8a0ac65000001"
-    },
-    {
-      "_account": "5414d49a62f3e9565f713745",
-      "_entity": "5414d49a62f3e9565f713748",
-      "_id": "5414d49b62f3e9565f71375e",
-      "amount": 388.93,
-      "date": "2014-09-12",
-      "name": "Discover Des:e Payment Id:xxxxx Indn:schulman Matthew Id:xxxxx20270 Web",
+      "name": "Venmo Des:payment Id:xxxxx792 Indn:jeffrey Kiske Id:xxxxx81992 Ccd",
       "meta": {
         "location": {
           "state": "CO"
@@ -99,295 +73,16 @@ class UsersController < ApplicationController
       "category_id": "53742c114fd7f2f065000001"
     },
     {
-      "_account": "5414d49a62f3e9565f713745",
-      "_entity": "5414d49a62f3e9565f713749",
-      "_id": "5414d49b62f3e9565f713759",
-      "amount": 2400,
-      "date": "2014-09-09",
-      "name": "Check 104",
-      "meta": {
-        "location": {}
-      },
-      "pending": false,
-      "score": {
-        "master": 0
-      },
-      "type": {
-        "primary": "unresolved"
-      },
-      "category": [
-        "Transfer",
-        "Withdrawal",
-        "Check"
-      ],
-      "category_id": "53742da54fd7f2f065000003"
-    },
-    {
-      "_account": "5414d49a62f3e9565f713745",
-      "_entity": "5414d49a62f3e9565f71374a",
-      "_id": "5414d49b62f3e9565f713762",
-      "amount": 40,
-      "date": "2014-09-07",
-      "name": "Atm Withdrawal",
-      "meta": {
-        "location": {
-          "state": "PA",
-          "city": "Philadelphia"
-        }
-      },
-      "pending": false,
-      "score": {
-        "master": 0
-      },
-      "type": {
-        "primary": "unresolved"
-      },
-      "category": [
-        "Transfer",
-        "Withdrawal",
-        "ATM"
-      ],
-      "category_id": "5374277870d8a0ac6500001c"
-    },
-    {
-      "_account": "5414d49a62f3e9565f713745",
-      "_entity": "53d0b8e0fec6ea8842d9abcc",
-      "_id": "5414d49b62f3e9565f713755",
-      "amount": 17.8,
-      "date": "2014-09-02",
-      "name": "amazon.com",
-      "meta": {
-        "location": {
-          "state": "WA",
-          "city": "Seattle",
-          "address": "1512 2 Nd Ave"
-        },
-        "contact": {
-          "website": "amazon.com"
-        }
-      },
-      "pending": false,
-      "score": {
-        "master": 0.5,
-        "detail": {
-          "identifier": 1,
-          "website": 1
-        }
-      },
-      "type": {
-        "primary": "digital",
-        "secondary": "unresolved"
-      },
-      "category": [
-        "Miscellaneous"
-      ],
-      "category_id": "52544965f71e87d007000088"
-    },
-    {
-      "_account": "5414d49a62f3e9565f713745",
-      "_entity": "5414d49b62f3e9565f71374c",
-      "_id": "5414d49b62f3e9565f71375d",
-      "amount": -446.24,
-      "date": "2014-09-02",
-      "name": "Venmo Des:cashout Id:xxxxx787 Indn:matt Schulman Id:xxxxx81992 Ccd",
-      "meta": {
-        "location": {
-          "state": "CO"
-        }
-      },
-      "pending": false,
-      "score": {
-        "master": 0
-      },
-      "type": {
-        "primary": "unresolved"
-      },
-      "category": [
-        "Transfer",
-        "Deposit"
-      ],
-      "category_id": "5374271970d8a0ac6500000a"
-    },
-    {
-      "_account": "5414d49a62f3e9565f713745",
-      "_entity": "53d15d2bb53d3bdd207c0661",
-      "_id": "5414d49b62f3e9565f713757",
-      "amount": 94.85,
-      "date": "2014-08-29",
-      "name": "amzn.com",
-      "meta": {
-        "location": {},
-        "contact": {
-          "website": "amzn.com"
-        }
-      },
-      "pending": false,
-      "score": {
-        "master": 0.5,
-        "detail": {
-          "identifier": 1,
-          "website": 1
-        }
-      },
-      "type": {
-        "primary": "digital",
-        "secondary": "unresolved"
-      }
-    },
-    {
-      "_account": "5414d49a62f3e9565f713745",
-      "_entity": "53d0b8e0fec6ea8842d9abcc",
-      "_id": "5414d49b62f3e9565f713758",
-      "amount": 23.91,
-      "date": "2014-08-29",
-      "name": "amazon.com",
-      "meta": {
-        "location": {
-          "state": "WA",
-          "city": "Seattle",
-          "address": "1512 2 Nd Ave"
-        },
-        "contact": {
-          "website": "amazon.com"
-        }
-      },
-      "pending": false,
-      "score": {
-        "master": 0.5,
-        "detail": {
-          "identifier": 1,
-          "website": 1
-        }
-      },
-      "type": {
-        "primary": "digital",
-        "secondary": "unresolved"
-      },
-      "category": [
-        "Miscellaneous"
-      ],
-      "category_id": "52544965f71e87d007000088"
-    },
-    {
-      "_account": "5414d49a62f3e9565f713745",
-      "_entity": "53d0b8e0fec6ea8842d9abcc",
-      "_id": "5414d49b62f3e9565f713756",
-      "amount": 15.31,
-      "date": "2014-08-29",
-      "name": "amazon.com",
-      "meta": {
-        "location": {
-          "state": "WA",
-          "city": "Seattle",
-          "address": "1512 2 Nd Ave"
-        },
-        "contact": {
-          "website": "amazon.com"
-        }
-      },
-      "pending": false,
-      "score": {
-        "master": 0.5,
-        "detail": {
-          "identifier": 1,
-          "website": 1
-        }
-      },
-      "type": {
-        "primary": "digital",
-        "secondary": "unresolved"
-      },
-      "category": [
-        "Miscellaneous"
-      ],
-      "category_id": "52544965f71e87d007000088"
-    },
-    {
-      "_account": "5414d49a62f3e9565f713745",
-      "_entity": "5414d49b62f3e9565f713750",
-      "_id": "5414d49b62f3e9565f71375c",
-      "amount": 526.57,
-      "date": "2014-08-28",
-      "name": "Discover Des:e Payment Id:xxxxx Indn:schulman Matthew Id:xxxxx20270 Web",
-      "meta": {
-        "location": {
-          "state": "CO"
-        }
-      },
-      "pending": false,
-      "score": {
-        "master": 0
-      },
-      "type": {
-        "primary": "unresolved"
-      },
-      "category": [
-        "Payment"
-      ],
-      "category_id": "53742c114fd7f2f065000001"
-    },
-    {
-      "_account": "5414d49a62f3e9565f713745",
-      "_entity": "5414d49b62f3e9565f713751",
-      "_id": "5414d49b62f3e9565f713763",
-      "amount": 260,
-      "date": "2014-08-23",
-      "name": "Atm Withdrawal",
-      "meta": {
-        "location": {
-          "state": "PA",
-          "city": "Philadelphia"
-        }
-      },
-      "pending": false,
-      "score": {
-        "master": 0
-      },
-      "type": {
-        "primary": "unresolved"
-      },
-      "category": [
-        "Transfer",
-        "Withdrawal",
-        "ATM"
-      ],
-      "category_id": "5374277870d8a0ac6500001c"
-    },
-    {
-      "_account": "5414d49a62f3e9565f713745",
-      "_entity": "5414d49b62f3e9565f713752",
-      "_id": "5414d49b62f3e9565f71375f",
-      "amount": 500.14,
-      "date": "2014-08-20",
-      "name": "Discover Des:e Payment Id:xxxxx Indn:schulman Matthew Id:xxxxx20270 Web",
-      "meta": {
-        "location": {
-          "state": "CO"
-        }
-      },
-      "pending": false,
-      "score": {
-        "master": 0
-      },
-      "type": {
-        "primary": "unresolved"
-      },
-      "category": [
-        "Payment"
-      ],
-      "category_id": "53742c114fd7f2f065000001"
-    },
-    {
-      "_account": "5414d49a62f3e9565f713745",
-      "_entity": "5414d49b62f3e9565f713753",
-      "_id": "5414d49b62f3e9565f713761",
-      "amount": 20,
-      "date": "2014-08-15",
-      "name": "Atm Withdrawal",
+      "_account": "54146a3a52575ff861e1e801",
+      "_entity": "54146a3b52575ff861e1e827",
+      "_id": "54146a3e52575ff861e1e88f",
+      "amount": 44.81,
+      "date": "2014-09-10",
+      "name": "Safeway Store 00027193",
       "meta": {
         "location": {
           "state": "CA",
-          "city": "San Francisco"
+          "city": "Menlo Park"
         }
       },
       "pending": false,
@@ -398,19 +93,69 @@ class UsersController < ApplicationController
         "primary": "unresolved"
       },
       "category": [
-        "Transfer",
-        "Withdrawal",
-        "ATM"
+        "Shops",
+        "Supermarkets and Groceries"
       ],
-      "category_id": "5374277870d8a0ac6500001c"
+      "category_id": "52544965f71e87d0070001b1"
     },
     {
-      "_account": "5414d49a62f3e9565f713745",
-      "_entity": "5414d49b62f3e9565f713754",
-      "_id": "5414d49b62f3e9565f713760",
-      "amount": -2336.34,
-      "date": "2014-08-15",
-      "name": "Microsoft Des:edipayment Id:xxxxx81114280 P8 Indn:schulman Matthew Id:xxxxx44442 Ppd",
+      "_account": "54146a3a52575ff861e1e801",
+      "_entity": "54146a3b52575ff861e1e829",
+      "_id": "54146a3e52575ff861e1e88a",
+      "amount": 73.51,
+      "date": "2014-09-10",
+      "name": "Emelinas",
+      "meta": {
+        "location": {
+          "state": "CA",
+          "city": "San Carlos"
+        }
+      },
+      "pending": false,
+      "score": {
+        "master": 0
+      },
+      "type": {
+        "primary": "unresolved"
+      },
+      "category": [
+        "Food and Drink",
+        "Restaurants"
+      ],
+      "category_id": "52544965f71e87d00700004c"
+    },
+    {
+      "_account": "54146a3a52575ff861e1e801",
+      "_entity": "54146a3b52575ff861e1e828",
+      "_id": "54146a3e52575ff861e1e88d",
+      "amount": 20,
+      "date": "2014-09-09",
+      "name": "Heroku",
+      "meta": {
+        "location": {
+          "state": "CA"
+        }
+      },
+      "pending": false,
+      "score": {
+        "master": 0
+      },
+      "type": {
+        "primary": "unresolved"
+      },
+      "category": [
+        "Professional",
+        "Computers"
+      ],
+      "category_id": "52544965f71e87d0070000d5"
+    },
+    {
+      "_account": "54146a3a52575ff861e1e800",
+      "_entity": "54146a3a52575ff861e1e803",
+      "_id": "54146a3e52575ff861e1e86f",
+      "amount": -196.54,
+      "date": "2014-09-09",
+      "name": "Venmo Des:cashout Id:xxxxx999 Indn:jeffrey Kiske Id:xxxxx81992 Ccd",
       "meta": {
         "location": {
           "state": "CO"
@@ -428,19 +173,243 @@ class UsersController < ApplicationController
         "Deposit"
       ],
       "category_id": "5374271970d8a0ac6500000a"
+    },
+    {
+      "_account": "54146a3a52575ff861e1e800",
+      "_entity": "54146a3a52575ff861e1e804",
+      "_id": "54146a3f52575ff861e1e898",
+      "amount": 255.38,
+      "date": "2014-09-08",
+      "name": "Online Banking Payment to Crd 0479 Confirmation#",
+      "meta": {
+        "location": {}
+      },
+      "pending": false,
+      "score": {
+        "master": 0
+      },
+      "type": {
+        "primary": "unresolved"
+      },
+      "category": [
+        "Transfer"
+      ],
+      "category_id": "5374271470d8a0ac65000009"
+    },
+    {
+      "_account": "54146a3a52575ff861e1e801",
+      "_entity": "54146a3b52575ff861e1e82d",
+      "_id": "54146a3f52575ff861e1e890",
+      "amount": 13.81,
+      "date": "2014-09-08",
+      "name": "Coupa Cafe Y2 E2",
+      "meta": {
+        "location": {
+          "state": "CA",
+          "city": "Stanford"
+        }
+      },
+      "pending": false,
+      "score": {
+        "master": 0
+      },
+      "type": {
+        "primary": "unresolved"
+      },
+      "category": [
+        "Food and Drink",
+        "Restaurants",
+        "Fast Food"
+      ],
+      "category_id": "52544965f71e87d007000068"
+    },
+    {
+      "_account": "54146a3a52575ff861e1e801",
+      "_entity": "54146a3b52575ff861e1e82c",
+      "_id": "54146a3e52575ff861e1e880",
+      "amount": 11.75,
+      "date": "2014-09-08",
+      "name": "Chipotle 1617",
+      "meta": {
+        "location": {
+          "state": "CA",
+          "city": "Palo Alto"
+        }
+      },
+      "pending": false,
+      "score": {
+        "master": 0
+      },
+      "type": {
+        "primary": "unresolved"
+      },
+      "category": [
+        "Food and Drink",
+        "Restaurants",
+        "Fast Food"
+      ],
+      "category_id": "52544965f71e87d007000068"
+    },
+    {
+      "_account": "54146a3a52575ff861e1e801",
+      "_entity": "54146a3b52575ff861e1e831",
+      "_id": "54146a3f52575ff861e1e897",
+      "amount": 11.75,
+      "date": "2014-09-07",
+      "name": "Chipotle 1617",
+      "meta": {
+        "location": {
+          "state": "CA",
+          "city": "Palo Alto"
+        }
+      },
+      "pending": false,
+      "score": {
+        "master": 0
+      },
+      "type": {
+        "primary": "unresolved"
+      },
+      "category": [
+        "Food and Drink",
+        "Restaurants",
+        "Fast Food"
+      ],
+      "category_id": "52544965f71e87d007000068"
+    },
+    {
+      "_account": "54146a3a52575ff861e1e801",
+      "_entity": "54146a3b52575ff861e1e830",
+      "_id": "54146a3e52575ff861e1e88e",
+      "amount": -255.38,
+      "date": "2014-09-07",
+      "name": "Online Payment from Ch",
+      "meta": {
+        "location": {}
+      },
+      "pending": false,
+      "score": {
+        "master": 0
+      },
+      "type": {
+        "primary": "unresolved"
+      }
+    },
+    {
+      "_account": "54146a3a52575ff861e1e801",
+      "_entity": "54146a3b52575ff861e1e82a",
+      "_id": "54146a3e52575ff861e1e88c",
+      "amount": 7.32,
+      "date": "2014-09-07",
+      "name": "Uber Technologies Inc",
+      "meta": {
+        "location": {
+          "state": "CA"
+        }
+      },
+      "pending": false,
+      "score": {
+        "master": 0
+      },
+      "type": {
+        "primary": "unresolved"
+      },
+      "category": [
+        "Travel",
+        "Taxi and Car Services"
+      ],
+      "category_id": "52544965f71e87d0070001cd"
+    },
+    {
+      "_account": "54146a3a52575ff861e1e801",
+      "_entity": "54146a3b52575ff861e1e82e",
+      "_id": "54146a3e52575ff861e1e887",
+      "amount": 14.08,
+      "date": "2014-09-07",
+      "name": "Orens Hummus Shop",
+      "meta": {
+        "location": {
+          "state": "CA",
+          "city": "Palo Alto"
+        }
+      },
+      "pending": false,
+      "score": {
+        "master": 0
+      },
+      "type": {
+        "primary": "unresolved"
+      },
+      "category": [
+        "Food and Drink",
+        "Restaurants"
+      ],
+      "category_id": "52544965f71e87d00700004c"
+    },
+    {
+      "_account": "54146a3a52575ff861e1e801",
+      "_entity": "54146a3b52575ff861e1e82f",
+      "_id": "54146a3e52575ff861e1e87c",
+      "amount": 34.86,
+      "date": "2014-09-07",
+      "name": "Campanille 32578114",
+      "meta": {
+        "location": {
+          "state": "CA",
+          "city": "Los Angeles"
+        }
+      },
+      "pending": false,
+      "score": {
+        "master": 0
+      },
+      "type": {
+        "primary": "unresolved"
+      },
+      "category": [
+        "Food and Drink",
+        "Restaurants"
+      ],
+      "category_id": "52544965f71e87d00700004c"
+    },
+    {
+      "_account": "54146a3a52575ff861e1e801",
+      "_entity": "54146a3b52575ff861e1e82b",
+      "_id": "54146a3e52575ff861e1e87a",
+      "amount": 52.25,
+      "date": "2014-09-07",
+      "name": "Cvs Pharmacy",
+      "meta": {
+        "location": {
+          "state": "CA",
+          "city": "Palo Alto"
+        }
+      },
+      "pending": false,
+      "score": {
+        "master": 0
+      },
+      "type": {
+        "primary": "unresolved"
+      },
+      "category": [
+        "Shops",
+        "Pharmacies"
+      ],
+      "category_id": "52544965f71e87d0070001ac"
     }
   ],
-  "access_token": "WyI1NDEzNzdhOWE2MjE3MTAwMDBmZjM2MjEiLCI1NDE0ZDQyMzYyZjNlOTU2NWY3MTM3M2UiLCI1NDE0ZDQyNDYyZjNlOTU2NWY3MTM3M2YiXQ=="
-  }'
+  "access_token": "WyI1NDEzNzdhOWE2MjE3MTAwMDBmZjM2MjEiLCI1NDE0Njk1MDYyZjNlOTU2NWY3MTJkNDciLCI1NDE0Njk1MTYyZjNlOTU2NWY3MTJkNDgiXQ=="
+}'
   
   def index
     @users = User.paginate(page: params[:page])
   end
 
   def show
-    @user = User.find(params[:id])
-    @microposts = @user.microposts.paginate(page: params[:page])
-    @transactions_hash_arr = transactions_hash_arr
+    @user = User.find(params[:id])    
+    @user.update_attribute(:most_recent_plaid_sync, update_user_plaid_json(@user.access_token))
+    @transactions_hash_arr = transactions_hash_arr    
   end
 
   def transactions_hash_arr
@@ -464,15 +433,7 @@ class UsersController < ApplicationController
           cents = "#{cents}0"
         end
 
-        # if transaction["amount"].to_s.index(".") == nil 
-        #   amount = "#{amount.to_s}.00"
-        # elsif (transaction["amount"].to_s.size - transaction["amount"].to_s.index(".") - 1) == 1
-        #   amount = "#{amount.to_s}0"
-        # end
-
-
-        cur_hash = {:name => transaction["name"], :date => transaction["date"], :amount => amount, :roundup => cents}
-        pp cur_hash
+        cur_hash = {:name => transaction["name"], :date => transaction["date"], :amount => amount, :roundup => cents} 
         transactions_arr << cur_hash
       end
     end
@@ -517,22 +478,21 @@ class UsersController < ApplicationController
         obj = {}
         obj["code"] = 201
         obj["type"] = "questions"
-        obj["question"] = JSON.parse(@response)["mfa"]["question"]
+        obj["question"] = JSON.parse(@response)["mfa"][0]["question"]
         obj["access_token"] = JSON.parse(@response)["access_token"]
-        return JSON.stringify(obj)
+        render json: obj
       end
     elsif @response.code == 200 #we're good
       obj = {}
       obj["code"] = 200
       obj["access_token"] = JSON.parse(@response)["access_token"]
-      return JSON.stringify(obj)
+      render json: obj
     else #diagnose the error
-      if !JSON.parse(@response)["message"].nil?
-        flash[:error] = JSON.parse(@response)["message"]
-      else 
-        flash[:error] = "Error with authentication"
-      end
-      redirect_to root_url
+      obj = {}
+      obj["code"] = @response.code
+      obj["message"] = JSON.parse(@response)["message"]
+      obj["resolve"] = JSON.parse(@response)["resolve"]
+      render json: obj
     end
   end
 
@@ -540,6 +500,14 @@ class UsersController < ApplicationController
     url = BASE_URL + path
     @response = RestClient.post url, :client_id => CLIENT_ID, :secret => SECRET, :type => type, :credentials => {:username => username, :password => password} ,:email => email
     return @response
+  end
+
+  def update_user_plaid_json(access_token)
+    #str = URI.encode("https://tartan.plaid.com/connect?client_id=#{CLIENT_ID}&secret=#{SECRET}&access_token=#{access_token}")
+    #@response = RestClient.get str
+    #@response
+    #uncomment the above lines, and delete the below line once mfa is done
+    SAMPLE_JSON_RESPONSE_STR
   end
 
   def edit
