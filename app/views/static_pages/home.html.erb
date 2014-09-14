@@ -18,7 +18,6 @@
   </div>
 
 <% else %>
-
 <div class="row">
   <div class="col-sm-5">
     <div class="" id="loginModal">
@@ -26,10 +25,11 @@
       <div class="well well-lg">
 
 	<div id="home-log-in-pane">
-	  <form class="form-signin" role="form">
-            <input type="email" class="form-control" placeholder="Email address" required="" autofocus="">
-            <input type="password" class="form-control" placeholder="Password" required="">
+	  <form class="form-signin" role="form" method='post' action="/sessions">
+            <input type="email" class="form-control" name="email" placeholder="Email address" required="" autofocus="">
+            <input type="password" class="form-control" name="password" placeholder="Password" required="">
             <label class="checkbox pull-right">
+              <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
 	      <input type="checkbox" value="remember-me"> Remember me
             </label>
             <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
@@ -60,7 +60,7 @@
 		<input type="password" class="form-control" id="inputPassword3" placeholder="Confirm">
 	      </div>
 	    </div>
-
+      <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
 	    <div class="form-group">
 	      <label for="sign-up-number" class="col-sm-3 control-label">Phone Number</label>
 	      <div class="col-sm-9">
