@@ -17,66 +17,109 @@
     </div>
   </div>
 
-<% else %>  
-  <div class="row" style="background:#e2f1ff; position:relative; bottom:60px; height:380px">    
-    <div style="position:relative; right:190px; top:90px">
-      <h1 style="position:relative; top:6px">New User? Sign Up</h1>
-      <h2 style="color:green; font-size:200%">It's free</h2>
-    </div>
-    <div class="span6 offset3" style="text-align:center; color:white; margin-top:5px; position:relative; right:10px; bottom:10px">
-      <%= form_for(:session, url: sessions_path) do |f| %>
-        <div style="position:relative; bottom:12px; left:120px">
-          <div style="position:relative; bottom:186.2px; left:27px; width:220px">
-            <%= f.label :email %>
-            <%= f.text_field :email %>
-          </div>
+<% else %>
 
-          <div style="position:relative; bottom:251px; left:260px; width:220px">
-            <%= f.label :password %>
-            <%= f.password_field :password %>
-          </div>
+<div class="row">
+  <div class="col-sm-4">
+    <div class="" id="loginModal">
 
+      <div class="well well-lg">
 
-          <div style="margin-top:7px; position:relative; bottom:311px; left:490px; width:100px">
-            <%= f.submit "Sign in", class: "btn btn-large btn-primary" %>
-          </div>
-        </div>
-      <% end %>
+	<div class="in" id="login-pane">
+	  <form class="form-signin" role="form">
+            <input type="email" class="form-control" placeholder="Email address" required="" autofocus="">
+            <input type="password" class="form-control" placeholder="Password" required="">
+            <label class="checkbox pull-right">
+	      <input type="checkbox" value="remember-me"> Remember me
+            </label>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+          </form>
+          <button style="margin-top:10px;" class="btn btn-lg btn-success btn-block">Sign up</button>
 
-      <div style="color:black;  position:relative; bottom:310px; left:260px">
-        <%= form_for(:user, :url => url_for(:controller => 'users', :action => 'create')) do |f| %>
-          <%= f.label :name %>
-          <%= f.text_field :name %>
+	</div>
 
-          <%= f.label :email %>
-          <%= f.text_field :email %>
-
-          <%= f.label :cell_phone_number %>
-          <%= f.text_field :phone_number %>
-
-          <%= f.label :bank %>
-          <%= f.select :bank, [['American Express','amex'],['Bank of America','bofa'],['Chase','chase'],['Citi','citi'],['US Bank','us'],['USAA','usaa'],['Wells Fargo','wells']] %>
-
-          <%= f.label :bank_username %>
-          <%= f.text_field :bank_username %>
-
-          <%= f.label :bank_password %>
-          <%= f.password_field :bank_password %>
-
-          <%= f.label :password %>
-          <%= f.password_field :password %>
-
-          <%= f.label :password_confirmation, "Confirmation" %>
-          <%= f.password_field :password_confirmation %>
-
-          <div style="position:relative; top:10px; left:0px"><%= f.submit "Create my account", class: "btn btn-large btn-success" %></div>
-        <% end %>
+	<div class="fade hide" id="create-pane">
+	  <form class="form-signin" role="form">
+            <input type="email" class="form-control" placeholder="Email address" required="" autofocus="">
+            <input type="password" class="form-control" placeholder="Password" required="">
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+	    <div class="text-center"> or </div>
+            <button class="btn btn-lg btn-success btn-block" type="submit">Sign up</button>
+          </form>
+	</div>
 
       </div>
-
-
-
     </div>
   </div>
-  
+
+  <div class="col-md-offset-1 col-sm-6">
+    <div class="" id="loginModal">
+
+      <div class="well well-lg">
+	<div class="row">
+	  <img src=<%=asset_path "KhanAcademy.png"%> class="img-circle"
+	       style="width:50%;height:50%;"/>
+	</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- <div class="row" style="background:#e2f1ff; position:relative; bottom:60px; height:380px"> -->
+  <!--   <div class="span6 offset3" style="text-align:center; color:white; margin-top:5px; position:relative; right:10px; bottom:10px"> -->
+  <!--     <%= form_for(:session, url: sessions_path) do |f| %> -->
+  <!--       <div style="position:relative; bottom:12px; left:120px"> -->
+  <!--         <div style="position:relative; bottom:186.2px; left:27px; width:220px"> -->
+  <!--           <%= f.label :email %> -->
+  <!--           <%= f.text_field :email %> -->
+  <!--         </div> -->
+
+  <!--         <div style="position:relative; bottom:251px; left:260px; width:220px"> -->
+  <!--           <%= f.label :password %> -->
+  <!--           <%= f.password_field :password %> -->
+  <!--         </div> -->
+
+
+  <!--         <div style="margin-top:7px; position:relative; bottom:311px; left:490px; width:100px"> -->
+  <!--           <%= f.submit "Sign in", class: "btn btn-large btn-primary" %> -->
+  <!--         </div> -->
+  <!--       </div> -->
+  <!--     <% end %> -->
+
+  <!--     <div style="color:black;  position:relative; bottom:310px; left:260px"> -->
+  <!--       <%= form_for(:user, :url => url_for(:controller => 'users', :action => 'create')) do |f| %> -->
+  <!--         <%= f.label :name %> -->
+  <!--         <%= f.text_field :name %> -->
+
+  <!--         <%= f.label :email %> -->
+  <!--         <%= f.text_field :email %> -->
+
+  <!--         <%= f.label :cell_phone_number %> -->
+  <!--         <%= f.text_field :phone_number %> -->
+
+  <!--         <%= f.label :bank %> -->
+  <!--         <%= f.select :bank, [['American Express','amex'],['Bank of America','bofa'],['Chase','chase'],['Citi','citi'],['US Bank','us'],['USAA','usaa'],['Wells Fargo','wells']] %> -->
+
+  <!--         <%= f.label :bank_username %> -->
+  <!--         <%= f.text_field :bank_username %> -->
+
+  <!--         <%= f.label :bank_password %> -->
+  <!--         <%= f.password_field :bank_password %> -->
+
+  <!--         <%= f.label :password %> -->
+  <!--         <%= f.password_field :password %> -->
+
+  <!--         <%= f.label :password_confirmation, "Confirmation" %> -->
+  <!--         <%= f.password_field :password_confirmation %> -->
+
+  <!--         <div style="position:relative; top:10px; left:0px"><%= f.submit "Create my account", class: "btn btn-large btn-success" %></div> -->
+  <!--       <% end %> -->
+
+  <!--     </div> -->
+
+
+
+  <!--   </div> -->
+  <!-- </div> -->
+
 <% end %>
