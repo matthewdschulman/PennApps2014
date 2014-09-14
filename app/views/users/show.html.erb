@@ -6,23 +6,24 @@
         <%= gravatar_for @user %>
         <%= @user.name %>
       </h1>
-    </section>
-    <section>
-      <%= render 'shared/stats' %>
-    </section>    
+    </section> 
   </aside>
   <div class="span8">
-    <% if current_user?(@user) %>
-      <div style="margin-bottom:25px">
-        <%= link_to "Make New Post", root_path, class: "btn btn-large btn-primary" %>
-      </div>
-    <% end %>
-    <%= render 'follow_form' if signed_in? %>	    <% if @user.microposts.any? %>
-	      <h3>Posts (<%= @user.microposts.count %>)</h3>
-	      <ol class="microposts">
-	        <%= render @microposts %>
-	      </ol>
-	      <%= will_paginate @microposts %>
-	    <% end %>
   </div>
+  <table style="width:100%">
+      <tr>
+        <td>Transaction Name</td>
+        <td>Date</td> 
+        <td>Amount</td>
+        <td>Donation</td>
+      </tr>
+      <% @transactions_hash_arr.each do |transaction| %>
+        <tr>
+          <td><%= transaction[:name] %></td>
+          <td><%= transaction[:date] %></td> 
+          <td><%= "$#{transaction[:amount]}" %></td>
+          <td><%= "$#{transaction[:roundup]}" %></td>
+        </tr>
+      <% end %>
+    </table>
 </div>
