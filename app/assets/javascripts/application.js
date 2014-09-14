@@ -64,3 +64,14 @@ $(document).ready(function(){
 
     
 });
+
+function checkEquality() {
+  if($("#inputPassword").val() == $("#inputPasswordConf").val()) {
+    $("#glyphCheck").css("display", "block");
+    $("#glyphX").css("display", "none");
+  }
+  else {
+    $("#glyphX").css("display", "block");
+    $("#glyphCheck").css("display", "none");
+  }
+}
