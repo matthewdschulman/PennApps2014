@@ -53,8 +53,9 @@ $(document).ready(function(){
 
 	$.get(req)
 	    .done(function(data) {
-        console.log(data);
-		alert('Success', data);
+		console.log(data);
+		$('#secuirty-question').text = data;
+		$('#security-modal').modal('show');
 	    })
 	    .fail(function(data) {
 		alert('Fail', data);
