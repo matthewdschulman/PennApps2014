@@ -407,14 +407,19 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
-    @user.most_recent_plaid_sync = update_user_plaid_json(@user.access_token)
-    @transactions_hash_arr = transactions_hash_arr
+    @user = User.find(params[:id])    
+    @user.update_attribute(:most_recent_plaid_sync, update_user_plaid_json(@user.access_token))
+    @transactions_hash = transactions_hash
+    @user.update_attribute(:users_transaction_hash, @transactions_hash.to_s)
+    gon.transactions_hash = @transactions_hash
+    @all_time_cents_count = get_all_time_cents_count
+    @cur_user_cents_count = one_user_cents_count(@user)
+    @cur_user_this_week_cents_count = one_user_cents_count_this_week(@user)
   end
 
-  def transactions_hash_arr
+  def transactions_hash
     json_data = JSON.parse(@user.most_recent_plaid_sync)
-    transactions_arr = Array.new
+    transactions_hash = Hash.new
     json_data["transactions"].each do |transaction|
       if transaction["amount"] > 0
 
@@ -433,11 +438,18 @@ class UsersController < ApplicationController
           cents = "#{cents}0"
         end
 
-        cur_hash = {:name => transaction["name"], :date => transaction["date"], :amount => amount, :roundup => cents}
-        transactions_arr << cur_hash
+        curTime = Time.now
+
+        cur_hash = {:name => transaction["name"], :amount => amount, :roundup => cents} 
+        if transactions_hash[transaction["date"]].nil?
+          transactions_hash[transaction["date"]] = []
+          transactions_hash[transaction["date"]] << cur_hash
+        else 
+          transactions_hash[transaction["date"]] << cur_hash
+        end
       end
     end
-    transactions_arr
+    transactions_hash
   end
 
   def new
@@ -540,6 +552,98 @@ class UsersController < ApplicationController
     @response = RestClient.get str
     return @response
     #uncomment the above lines, and delete the below line once mfa is done
+  end
+
+  def get_all_time_cents_count
+    count = 0.0
+    User.all.each do |user|
+      eval(user.users_transaction_hash).each do |transaction|
+        transaction[1].each do |trans|
+          if trans[:roundup] != "0.00"
+            count = count + trans[:roundup].to_f
+          end
+        end
+      end
+    end
+    count = count * 100
+    count = count.to_i
+    count
+  end
+
+  def one_user_cents_count(user)
+    count = 0.0
+    eval(user.users_transaction_hash).each do |transaction|
+      transaction[1].each do |trans|
+        if trans[:roundup] != "0.00"
+          count = count + trans[:roundup].to_f
+        end
+      end
+    end
+    count = count * 100
+    count = count.to_i
+    count
+  end
+
+  def one_user_cents_count_this_week(user)
+    count = 0.0
+    eval(user.users_transaction_hash).each do |transaction|
+      if transaction_in_past_week(transaction)
+        transaction[1].each do |trans|
+          if trans[:roundup] != "0.00"
+            count = count + trans[:roundup]
+          end
+        end
+      end
+    end
+    count = count * 100
+    count = count.to_i
+    count
+  end
+
+  def transaction_in_past_week(transaction)
+    time = Time.now.to_s
+    today = DateTime.parse(time).strftime("%Y-%m-%d")
+    if transaction[0] == today
+      true
+    end
+
+    time = 1.day.ago.to_s
+    today = DateTime.parse(time).strftime("%Y-%m-%d")
+    if transaction[0] == today
+      true
+    end
+
+    time = 2.days.ago.to_s
+    today = DateTime.parse(time).strftime("%Y-%m-%d")
+    if transaction[0] == today
+      true
+    end
+
+    time = 3.days.ago.to_s
+    today = DateTime.parse(time).strftime("%Y-%m-%d")
+    if transaction[0] == today
+      true
+    end
+
+    time = 4.days.ago.to_s
+    today = DateTime.parse(time).strftime("%Y-%m-%d")
+    if transaction[0] == today
+      true
+    end
+
+    time = 5.days.ago.to_s
+    today = DateTime.parse(time).strftime("%Y-%m-%d")
+    if transaction[0] == today
+      true
+    end
+
+    time = 6.days.ago.to_s
+    today = DateTime.parse(time).strftime("%Y-%m-%d")
+    if transaction[0] == today
+      true
+    end
+
+    false
   end
 
   def edit
