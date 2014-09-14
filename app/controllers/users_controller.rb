@@ -452,11 +452,15 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params)
+    @user = User.new(email:params[:email],
+                     password:params[:password],
+                     password_confirmation:params[:password_confirmation],
+                     phone_number:params[:phone_number],
+                     access_token:params[:access_token])
     access_token = params[:access_token]
     str = URI.encode("https://tartan.plaid.com/connect?client_id=#{CLIENT_ID}&secret=#{SECRET}&access_token=#{access_token}")
     @response = RestClient.get str
-    @user.update_attribute(:most_recent_plaid_sync, @response)
+    @user.most_recent_plaid_sync = @response
     if @user.save
       sign_in @user
       flash[:success] = "Welcome to GoodCents!"

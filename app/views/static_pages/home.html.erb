@@ -5,8 +5,8 @@
       <div class="well well-lg">
 
 	<div id="home-log-in-pane">
+	  <h3>Log in</h3>
 	  <form role="form" method='post' action="/sessions"class="form-horizontal">
-
             <div class="form-group">
             <label for="sign-in-email" class="col-sm-3 control-label">Email</label>
               <div class="col-sm-9">
@@ -25,6 +25,7 @@
             </label>
             <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
           </form>
+
           <button id="home-sign-up" style="margin-top:10px;" class="btn btn-lg btn-success btn-block">Sign up</button>
 
 	</div>
@@ -33,8 +34,9 @@
 	  <button class="btn btn-default btn-sm" id="sign-up-back">
 	    <span class="glyphicon glyphicon-chevron-left"></span> Back
 	  </button>
+	  <h3>Sign up</h3>
 
-	  <form class="form-horizontal" role="form">
+	  <form class="form-horizontal" role="form" method="post" action="/users">
 	    <div class="form-group">
 	      <label for="sign-up-email" class="col-sm-3 control-label">Email</label>
 	      <div class="col-sm-9">
@@ -45,10 +47,10 @@
 	    <div class="form-group">
 	      <label for="inputPassword" class="col-sm-3 control-label">Password</label>
 	      <div class="col-sm-4">
-		<input type="password" class="form-control" id="inputPassword" placeholder="Password">
+		<input name="password" type="password" class="form-control" id="inputPassword" placeholder="Password">
 	      </div>
 	      <div class="col-sm-4">
-		<input type="password" class="form-control" id="inputPasswordConf" onblur="checkEquality()" placeholder="Confirm">
+		<input name="password_confirmation" type="password" class="form-control" id="inputPasswordConf" onblur="checkEquality()" placeholder="Confirm">
 	      </div>
 	      <div class="col-sm-1">
 		<span class="glyphicon glyphicon-ok" id="glyphCheck"
@@ -127,7 +129,7 @@
       	<div class="row">
           <div class="col-sm-6">
             <h3 style = "color:#5cb85c"> Giving Feels Good</h3>
-            <p class="lead"> GoodCents looks at your daily purchases, rounds each one up to the nearest dollar and donates the change to a worthy cause. <br><br> We'll give you the option to donate or not at the end of each day – we hope you do!</p>
+            <p class="lead"> GoodCents looks at your daily purchases, rounds each one up to the nearest dollar, and donates the change to a worthy cause. <br><br> We'll give you the option to donate or not at the end of each day – we hope you do!</p>
           </div>
             <div class="col-sm-6">
               <img src=<%=asset_path "KhanAcademy.png"%> class="img-circle" style="width:100%;height:100%;"/>
@@ -148,7 +150,8 @@
 	  <form role="form">
 	    <div class="form-group">
 	      <label id="security-question" for="security-answer"></label>
-	      <input type="text" class="form-control" id="security-answer" placeholder="Answer">
+	      <input type="text" class="form-control" id="security-answer"
+		     placeholder="Answer" autofocus>
 	    </div>
 	    <button id="security-answer-submit" class="btn btn-default">Submit</button>
 	  </form>
