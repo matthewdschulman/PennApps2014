@@ -18,5 +18,9 @@
 //= require_tree .
 
 $(document).ready(function(){
-
+    $('#home-sign-up').click(function(){
+	$('#home-log-in-pane').addClass('hide')
+	$('#home-sign-up-pane').removeClass('hide');
+	$('#home-sign-up-pane').removeClass('fade');
+    });
 });
