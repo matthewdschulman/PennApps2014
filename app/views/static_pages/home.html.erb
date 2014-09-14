@@ -19,10 +19,7 @@
                 <input type="password" class="form-control" id = "sign-in-password" name="password" placeholder="Password" required="">
               </div>
             </div>
-            <label class="checkbox pull-right">
-              <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-	      <input type="checkbox" value="remember-me"> Remember me
-            </label>
+            <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
             <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
           </form>
 

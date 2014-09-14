@@ -586,11 +586,12 @@ class UsersController < ApplicationController
 
   def one_user_cents_count_this_week(user)
     count = 0.0
+    
     eval(user.users_transaction_hash).each do |transaction|
       if transaction_in_past_week(transaction)
         transaction[1].each do |trans|
           if trans[:roundup] != "0.00"
-            count = count + trans[:roundup]
+            count = count + trans[:roundup].to_f
           end
         end
       end
@@ -601,49 +602,53 @@ class UsersController < ApplicationController
   end
 
   def transaction_in_past_week(transaction)
+    
     time = Time.now.to_s
     today = DateTime.parse(time).strftime("%Y-%m-%d")
     if transaction[0] == today
-      true
+      return true
     end
 
     time = 1.day.ago.to_s
+    
     today = DateTime.parse(time).strftime("%Y-%m-%d")
     if transaction[0] == today
-      true
+      return true
     end
 
     time = 2.days.ago.to_s
+    
     today = DateTime.parse(time).strftime("%Y-%m-%d")
     if transaction[0] == today
-      true
+      return true
     end
 
     time = 3.days.ago.to_s
+    
     today = DateTime.parse(time).strftime("%Y-%m-%d")
     if transaction[0] == today
-      true
+      return true
     end
 
     time = 4.days.ago.to_s
     today = DateTime.parse(time).strftime("%Y-%m-%d")
     if transaction[0] == today
-      true
+      return true
     end
 
     time = 5.days.ago.to_s
     today = DateTime.parse(time).strftime("%Y-%m-%d")
     if transaction[0] == today
-      true
+      return true
     end
 
     time = 6.days.ago.to_s
     today = DateTime.parse(time).strftime("%Y-%m-%d")
     if transaction[0] == today
-      true
+      return true
     end
 
-    false
+    return false
   end
 
   def edit
