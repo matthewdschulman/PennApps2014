@@ -51,11 +51,49 @@ $(document).ready(function(){
 
 	console.log(req);
 
+	function stepMFA(data) {
+	    console.log('stepMFA');
+	    console.log(data);
+
+	    var question = data['question'];
+	    $('#security-question').text(data['question']);
+	    $('#security-modal').modal('show');
+	}
+
+	function failMFA(data) {
+	    console.log(data)
+	}
+
 	$.get(req)
 	    .done(function(data) {
 		console.log(data);
-		$('#secuirty-question').text = data;
-		$('#security-modal').modal('show');
+		var code = data['code']
+		var type = data['type']
+		if (code == 201) {
+		    var question = data['question']
+		    $('#security-question').text(data['question']);
+		    $('#security-modal').modal('show');
+
+		    $('#security-answer-submit').click(function(){
+			event.preventDefault();
+			var token = data['access_token'];
+			var mfa = $('#security-answer').val();
+			var req = '/mfa_step?mfa=' + mfa + '&access_token=' + token;
+			$('#security-modal').modal('hide');
+			$('#security-answer').val('');
+			$.get(req).done(stepMFA).fail(failMFA);
+		    })
+		}
+		else if (code == 200) {
+		    $('#bank-form-group input, #bank-form-group select').prop('disabled', true);
+		    $('#sign-up-verify-bank').addClass('disabled');
+		    $('#sign-up-submit').removeClass('disabled');
+		    $('#sign-up-access-token').val(data['access_token']);
+		}
+		else {
+		    // Something went terribly wrong
+		}
+
 	    })
 	    .fail(function(data) {
 		alert('Fail', data);

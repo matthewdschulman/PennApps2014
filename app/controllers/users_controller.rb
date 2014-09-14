@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   BASE_URL = 'https://tartan.plaid.com/'
 
   #obviously move these
-  CLIENT_ID='541377a9a621710000ff3621' 
+  CLIENT_ID='541377a9a621710000ff3621'
   SECRET='fkFfK2SBmrsjFipWzFLFzu'
 
   #get rid of this var once jeff finishes his MFA stuff
@@ -401,15 +401,15 @@ class UsersController < ApplicationController
   ],
   "access_token": "WyI1NDEzNzdhOWE2MjE3MTAwMDBmZjM2MjEiLCI1NDE0Njk1MDYyZjNlOTU2NWY3MTJkNDciLCI1NDE0Njk1MTYyZjNlOTU2NWY3MTJkNDgiXQ=="
 }'
-  
+
   def index
     @users = User.paginate(page: params[:page])
   end
 
   def show
-    @user = User.find(params[:id])    
+    @user = User.find(params[:id])
     @user.update_attribute(:most_recent_plaid_sync, update_user_plaid_json(@user.access_token))
-    @transactions_hash_arr = transactions_hash_arr    
+    @transactions_hash_arr = transactions_hash_arr
   end
 
   def transactions_hash_arr
@@ -417,14 +417,14 @@ class UsersController < ApplicationController
     transactions_arr = Array.new
     json_data["transactions"].each do |transaction|
       if transaction["amount"] > 0
-        
+
         amount = transaction["amount"].to_s
-        if transaction["amount"].to_s.index(".") == nil 
+        if transaction["amount"].to_s.index(".") == nil
           amount = "#{amount}.00"
         elsif (transaction["amount"].to_s.size - transaction["amount"].to_s.index(".") - 1) == 1
           amount = "#{amount}0"
         end
-        
+
         cents = (eval(amount).to_i + 1 - eval(amount)).round(2)
 
         if cents == 1.0
@@ -433,7 +433,7 @@ class UsersController < ApplicationController
           cents = "#{cents}0"
         end
 
-        cur_hash = {:name => transaction["name"], :date => transaction["date"], :amount => amount, :roundup => cents} 
+        cur_hash = {:name => transaction["name"], :date => transaction["date"], :amount => amount, :roundup => cents}
         transactions_arr << cur_hash
       end
     end
@@ -461,7 +461,7 @@ class UsersController < ApplicationController
     else
       render 'new'
     end
-  end  
+  end
 
   def add_user
     type = params[:type]
@@ -469,7 +469,7 @@ class UsersController < ApplicationController
     password = params[:password]
     email = params[:email]
     post('/connect', type, username, password, email)
-    if @response.code == 201 #mfa        
+    if @response.code == 201 #mfa
       mfaType = JSON.parse(@response)["type"]
       if mfaType == "questions"
         obj = {}
@@ -497,10 +497,9 @@ class UsersController < ApplicationController
   def mfa_step
     mfa = params[:mfa]
     access_token = params[:access_token]
-    url = BASE_URL + '/step'
+    url = BASE_URL + 'connect/step'
     @response = RestClient.post url, :client_id => CLIENT_ID, :secret => SECRET, :mfa => mfa, :access_token => access_token
-     post('/connect', type, username, password, email)
-    if @response.code == 201 #mfa        
+    if @response.code == 201 #mfa
       mfaType = JSON.parse(@response)["type"]
       if mfaType == "questions"
         obj = {}
