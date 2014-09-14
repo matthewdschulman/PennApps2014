@@ -4,8 +4,9 @@
     <div class="container">
       <h1 style = "color:#428bca">GoodCents</h1>
       <nav>
-        <ul class="nav pull-right">
+        <ul class="nav navbar-nav navbar-right">
           <% if signed_in? %>
+            <%= button_to "Sign out", signout_path, method: "delete", class: "btn btn-success btn-small" %>
           <% else %>
           <% end %>
         </ul>
