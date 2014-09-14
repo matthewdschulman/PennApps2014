@@ -40,7 +40,24 @@ $(document).ready(function(){
     });
 
     $('#sign-up-verify-bank').click(function(){
-	event.preventDefault()
+	event.preventDefault();
+	var type = $('#sign-up-bank').val();
+	var username = $('#sign-up-bank-account').val();
+	var password = $('#sign-up-bank-password').val();
+	var email = $('#sign-up-email').val();
+
+	req = "/add_user?type=" + type + "&username=" + username +
+	"&password=" + password + "&email=" + email;
+
+	console.log(req);
+
+	$.get(req)
+	    .done(function(data) {
+		alert('Success', data);
+	    })
+	    .fail(function(data) {
+		alert('Fail', data);
+	    });
 
     });
 
