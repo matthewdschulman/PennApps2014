@@ -408,7 +408,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])    
-    @user.update_attribute(:most_recent_plaid_sync, update_user_plaid_json(@user.access_token))
+    @user.most_recent_plaid_sync = update_user_plaid_json(@user.access_token))
     @transactions_hash_arr = transactions_hash_arr    
   end
 
@@ -462,7 +462,7 @@ class UsersController < ApplicationController
       flash[:success] = "Welcome to GoodCents!"
       redirect_to @user
     else
-      render 'new'
+      redirect_to root_url, :flash => { :error => 'Error Signing In, Please Try Again'}
     end
   end  
 
@@ -532,11 +532,10 @@ class UsersController < ApplicationController
   end
 
   def update_user_plaid_json(access_token)
-    #str = URI.encode("https://tartan.plaid.com/connect?client_id=#{CLIENT_ID}&secret=#{SECRET}&access_token=#{access_token}")
-    #@response = RestClient.get str
-    #@response
+    str = URI.encode("https://tartan.plaid.com/connect?client_id=#{CLIENT_ID}&secret=#{SECRET}&access_token=#{access_token}")
+    @response = RestClient.get str
+    return @response
     #uncomment the above lines, and delete the below line once mfa is done
-    SAMPLE_JSON_RESPONSE_STR
   end
 
   def edit
