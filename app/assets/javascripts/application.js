@@ -46,6 +46,8 @@ $(document).ready(function(){
 	var password = $('#sign-up-bank-password').val();
 	var email = $('#sign-up-email').val();
 
+	$(this).addClass('disabled');
+
 	req = "/add_user?type=" + type + "&username=" + username +
 	"&password=" + password + "&email=" + email;
 
@@ -62,6 +64,9 @@ $(document).ready(function(){
 	    if (code == 201) {
 		var question = data['question']
 		$('#security-question').text(data['question']);
+		$('#security-answer-submit').removeClass('disabled');
+		$('#security-answer-submit').text('Submit');
+		$('#security-answer').prop('disabled', false);
 		$('#security-modal').modal('show');
 
 		$('#security-answer-submit').click(function(){
@@ -71,8 +76,10 @@ $(document).ready(function(){
 		    if (mfa.length > 0)
 		    {
 			var req = '/mfa_step?mfa=' + mfa + '&access_token=' + token;
-			$('#security-modal').modal('hide');
 			$('#security-answer').val('');
+			$('#security-answer').prop('disabled', true);
+			$('#security-answer-submit').addClass('disabled');
+			$('#security-answer-submit').text('Loading...');
 			$.get(req).done(stepMFA).fail(failMFA);
 		    }
 		})
@@ -82,6 +89,7 @@ $(document).ready(function(){
 		$('#sign-up-verify-bank').addClass('disabled');
 		$('#sign-up-submit').removeClass('disabled');
 		$('#sign-up-access-token').val(data['access_token']);
+		$('#security-modal').modal('hide');
 	    }
 	    else {
 		// Something went terribly wrong
