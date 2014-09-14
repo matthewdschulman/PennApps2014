@@ -66,7 +66,7 @@ $(document).ready(function(){
 });
 
 function checkEquality() {
-  if($("#inputPassword").val() == $("#inputPasswordConf").val()) {
+  if($("#inputPassword").val() == $("#inputPasswordConf").val() && $("#inputPassword").val().length > 5) {
     $("#glyphCheck").css("display", "block");
     $("#glyphX").css("display", "none");
   }
