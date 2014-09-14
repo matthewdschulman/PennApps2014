@@ -492,7 +492,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    json_response = add_user(params[:user][:bank], params[:user][:bank_username], params[:user][:bank_password], params[:user][:email])    
+    json_response = post("/connect", params[:user][:bank], params[:user][:bank_username], params[:user][:bank_password], params[:user][:email])    
     @user.update_attribute(:most_recent_plaid_sync, json_response)
     #delete the next line after jeff finishes his mfa stuff
     @user.update_attribute(:most_recent_plaid_sync, SAMPLE_JSON_RESPONSE_STR)
@@ -505,15 +505,27 @@ class UsersController < ApplicationController
     end
   end  
 
-  def add_user(type, username, password, email)
+  def add_user
+    type = params[:type]
+    username = params[:username]
+    password = params[:password]
+    email = params[:email]
     post('/connect', type, username, password, email)
-    if @response.code == 201 #mfa      
-      @user.update_attribute(:access_token, JSON.parse(@response)["access_token"])      
-      mfa_post(@response)      
-      @response #temporary!!! 
+    if @response.code == 201 #mfa        
+      mfaType = JSON.parse(@response)["type"]
+      if mfaType == "questions"
+        obj = {}
+        obj["code"] = 201
+        obj["type"] = "questions"
+        obj["question"] = JSON.parse(@response)["mfa"]["question"]
+        obj["access_token"] = JSON.parse(@response)["access_token"]
+        return JSON.stringify(obj)
+      end
     elsif @response.code == 200 #we're good
-      @user.update_attribute(:access_token, JSON.parse(@response)["access_token"])
-      @response
+      obj = {}
+      obj["code"] = 200
+      obj["access_token"] = JSON.parse(@response)["access_token"]
+      return JSON.stringify(obj)
     else #diagnose the error
       if !JSON.parse(@response)["message"].nil?
         flash[:error] = JSON.parse(@response)["message"]
@@ -522,11 +534,6 @@ class UsersController < ApplicationController
       end
       redirect_to root_url
     end
-  end
-
-  def mfa_post(response)
-    #get user's answer to current mfa question
-    #mfa post
   end
 
   def post(path, type, username, password, email)
