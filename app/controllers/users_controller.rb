@@ -560,7 +560,7 @@ class UsersController < ApplicationController
       eval(user.users_transaction_hash).each do |transaction|
         transaction[1].each do |trans|
           if trans[:roundup] != "0.00"
-            count = count + trans[:roundup]
+            count = count + trans[:roundup].to_f
           end
         end
       end
@@ -575,7 +575,7 @@ class UsersController < ApplicationController
     eval(user.users_transaction_hash).each do |transaction|
       transaction[1].each do |trans|
         if trans[:roundup] != "0.00"
-          count = count + trans[:roundup]
+          count = count + trans[:roundup].to_f
         end
       end
     end
