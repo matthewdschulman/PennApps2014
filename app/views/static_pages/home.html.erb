@@ -1,82 +1,161 @@
-<% if signed_in? %>
-  <div class="row">
-    <aside class="span4">
-      <section>
-        <%= render 'shared/user_info' %>
-      </section>
-      <section>
-        <%= render 'shared/stats' %>
-      </section>
-      <section>
-        <%= render 'shared/micropost_form' %>
-      </section>
-    </aside>
-    <div class="span8">
-      <h3>News Feed</h3>
-      <%= render 'shared/feed' %>
-    </div>
-  </div>
+<div class="row">
+  <div class="col-sm-5">
+    <div class="" id="loginModal">
 
-<% else %>  
-  <div class="row" style="background:#e2f1ff; position:relative; bottom:60px; height:380px">    
-    <div style="position:relative; right:190px; top:90px">
-      <h1 style="position:relative; top:6px">New User? Sign Up</h1>
-      <h2 style="color:green; font-size:200%">It's free</h2>
-    </div>
-    <div class="span6 offset3" style="text-align:center; color:white; margin-top:5px; position:relative; right:10px; bottom:10px">
-      <%= form_for(:session, url: sessions_path) do |f| %>
-        <div style="position:relative; bottom:12px; left:120px">
-          <div style="position:relative; bottom:186.2px; left:27px; width:220px">
-            <%= f.label :email %>
-            <%= f.text_field :email %>
-          </div>
+      <div class="well well-lg">
 
-          <div style="position:relative; bottom:251px; left:260px; width:220px">
-            <%= f.label :password %>
-            <%= f.password_field :password %>
-          </div>
+	<div id="home-log-in-pane">
+	  <h3>Log in</h3>
+	  <form role="form" method='post' action="/sessions"class="form-horizontal">
+            <div class="form-group">
+            <label for="sign-in-email" class="col-sm-3 control-label">Email</label>
+              <div class="col-sm-9">
+                <input type="email" id = "sign-in-email" class="form-control" name="email" placeholder="Email address" required="" autofocus="">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="sign-in-password" class="col-sm-3 control-label">Password</label>
+              <div class="col-sm-9">
+                <input type="password" class="form-control" id = "sign-in-password" name="password" placeholder="Password" required="">
+              </div>
+            </div>
+            <label class="checkbox pull-right">
+              <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+	      <input type="checkbox" value="remember-me"> Remember me
+            </label>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+          </form>
 
+          <button id="home-sign-up" style="margin-top:10px;" class="btn btn-lg btn-success btn-block">Sign up</button>
 
-          <div style="margin-top:7px; position:relative; bottom:311px; left:490px; width:100px">
-            <%= f.submit "Sign in", class: "btn btn-large btn-primary" %>
-          </div>
-        </div>
-      <% end %>
+	</div>
 
-      <div style="color:black;  position:relative; bottom:310px; left:260px">
-        <%= form_for(:user, :url => url_for(:controller => 'users', :action => 'create')) do |f| %>
-          <%= f.label :name %>
-          <%= f.text_field :name %>
+	<div class="hide" id="home-sign-up-pane">
+	  <button class="btn btn-default btn-sm" id="sign-up-back">
+	    <span class="glyphicon glyphicon-chevron-left"></span> Back
+	  </button>
+	  <h3>Sign up</h3>
 
-          <%= f.label :email %>
-          <%= f.text_field :email %>
+	  <form class="form-horizontal" role="form" method="post" action="/users">
+	    <div class="form-group">
+	      <label for="sign-up-email" class="col-sm-3 control-label">Email</label>
+	      <div class="col-sm-9">
+		<input name="email" type="email" class="form-control" id="sign-up-email"
+		       placeholder="joe@email.com">
+	      </div>
+	    </div>
+	    <div class="form-group">
+	      <label for="inputPassword" class="col-sm-3 control-label">Password</label>
+	      <div class="col-sm-4">
+		<input name="password" type="password" class="form-control" id="inputPassword" placeholder="Password">
+	      </div>
+	      <div class="col-sm-4">
+		<input name="password_confirmation" type="password" class="form-control" id="inputPasswordConf" onblur="checkEquality()" placeholder="Confirm">
+	      </div>
+	      <div class="col-sm-1">
+		<span class="glyphicon glyphicon-ok" id="glyphCheck"
+		      style="margin:0.5em 0 0 -1em;display:none;color:#5cb85c"></span>
+		<span class="glyphicon glyphicon-remove" id="glyphX"
+		      style="margin:0.5em 0 0 -1em;display:none;color:#d9534f"></span>
+	      </div>
+	    </div>
 
-          <%= f.label :cell_phone_number %>
-          <%= f.text_field :phone_number %>
+	    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+	    <div class="form-group">
+	      <label for="sign-up-number" class="col-sm-3 control-label">Phone Number</label>
+	      <div class="col-sm-9">
+		<input name="phone_number" type="text" class="form-control" id="sign-up-number"
+		       placeholder="(215) 555-1234">
+	      </div>
+	    </div>
 
-          <%= f.label :bank %>
-          <%= f.select :bank, [['American Express','amex'],['Bank of America','bofa'],['Chase','chase'],['Citi','citi'],['US Bank','us'],['USAA','usaa'],['Wells Fargo','wells']] %>
+	    <!-- Divider -->
+	    <div style="border: solid 1px #D3D3D3; margin-bottom:15px"></div>
+	    <div id="bank-form-group">
+	      <div class="form-group" id="sign-up-form">
+		<label for="sign-up-bank" class="col-sm-3 control-label">Bank</label>
+		<div class="col-sm-9">
+		  <select class="form-control" id="sign-up-bank">
+		    <option value="amex">American Express</option>
+		    <option value="bofa">Bank of America</option>
+		    <option value="chase">Chase</option>
+		    <option value="citi">Citi</option>
+		    <option value="us">US Bank</option>
+		    <option value="usaa">USAA</option>
+		    <option value="wells">Wells Fargo</option>
+		  </select>
+		</div>
+	      </div>
 
-          <%= f.label :bank_username %>
-          <%= f.text_field :bank_username %>
+	      <div class="form-group">
+		<label for="sign-up-bank-account" class="col-sm-3
+							 control-label">Bank User Name</label>
+		<div class="col-sm-9">
+		  <input type="email" class="form-control"
+			 id="sign-up-bank-account" placeholder="joebanker">
+		</div>
+	      </div>
+	      <div class="form-group">
+		<label for="sign-up-bank-password" class="col-sm-3 control-label">Bank Password</label>
 
-          <%= f.label :bank_password %>
-          <%= f.password_field :bank_password %>
+		<div class="col-sm-6">
+		  <input type="password" class="form-control" id="sign-up-bank-password" placeholder="complexpassword">
+		</div>
+		<div class="col-sm-3">
+		  <button class="btn btn-success disabled"
+			  id="sign-up-verify-bank">Verify</button>
+		</div>
+	      </div>
 
-          <%= f.label :password %>
-          <%= f.password_field :password %>
+              <button id="sign-up-submit" class="btn btn-lg btn-success btn-block disabled" type="submit">Sign up</button>
+	    </div>
+	    <div class="form-group hide">
 
-          <%= f.label :password_confirmation, "Confirmation" %>
-          <%= f.password_field :password_confirmation %>
+		<div class="col-sm-6">
+		  <input type="hidden" id="sign-up-access-token" name="access_token">
+		</div>
+	    </div>
+	  </form>
 
-          <div style="position:relative; top:10px; left:0px"><%= f.submit "Create my account", class: "btn btn-large btn-success" %></div>
-        <% end %>
+	</div>
 
       </div>
-
-
-
     </div>
   </div>
-  
-<% end %>
+
+  <div class="col-sm-7">
+    <div class="" id="loginModal">
+      <div class="well well-lg">
+      	<div class="row">
+          <div class="col-sm-6">
+            <h3 style = "color:#5cb85c"> Giving Feels Good</h3>
+            <p class="lead"> GoodCents looks at your daily purchases, rounds each one up to the nearest dollar, and donates the change to a worthy cause. <br><br> We'll give you the option to donate or not at the end of each day – we hope you do!</p>
+          </div>
+            <div class="col-sm-6">
+              <img src=<%=asset_path "KhanAcademy.png"%> class="img-circle" style="width:100%;height:100%;"/>
+              *We are not affiliated in any way with Khan Academy
+       </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="security-modal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+      <div class="panel panel-default">
+	<!-- Default panel contents -->
+	<div class="panel-heading"><h4>Security Question</h4></div>
+	<div class="panel-body">
+	  <form role="form">
+	    <div class="form-group">
+	      <label id="security-question" for="security-answer"></label>
+	      <input type="text" class="form-control" id="security-answer"
+		     placeholder="Answer" autofocus>
+	    </div>
+	    <button id="security-answer-submit" class="btn btn-default">Submit</button>
+	  </form>
+	</div>
+      </div>
+  </div>
+</div>

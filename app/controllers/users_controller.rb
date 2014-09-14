@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   BASE_URL = 'https://tartan.plaid.com/'
 
   #obviously move these
-  CLIENT_ID='541377a9a621710000ff3621' 
+  CLIENT_ID='541377a9a621710000ff3621'
   SECRET='fkFfK2SBmrsjFipWzFLFzu'
 
   #get rid of this var once jeff finishes his MFA stuff
@@ -401,7 +401,7 @@ class UsersController < ApplicationController
   ],
   "access_token": "WyI1NDEzNzdhOWE2MjE3MTAwMDBmZjM2MjEiLCI1NDE0Njk1MDYyZjNlOTU2NWY3MTJkNDciLCI1NDE0Njk1MTYyZjNlOTU2NWY3MTJkNDgiXQ=="
 }'
-  
+
   def index
     @users = User.paginate(page: params[:page])
   end
@@ -424,12 +424,12 @@ class UsersController < ApplicationController
       if transaction["amount"] > 0
 
         amount = transaction["amount"].to_s
-        if transaction["amount"].to_s.index(".") == nil 
+        if transaction["amount"].to_s.index(".") == nil
           amount = "#{amount}.00"
         elsif (transaction["amount"].to_s.size - transaction["amount"].to_s.index(".") - 1) == 1
           amount = "#{amount}0"
         end
-        
+
         cents = (eval(amount).to_i + 1 - eval(amount)).round(2)
 
         if cents == 1.0
@@ -464,44 +464,82 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params)
-    json_response = add_user(params[:user][:bank], params[:user][:bank_username], params[:user][:bank_password], params[:user][:email])    
-    @user.update_attribute(:most_recent_plaid_sync, json_response)
-    #delete the next line after jeff finishes his mfa stuff
-    @user.update_attribute(:most_recent_plaid_sync, SAMPLE_JSON_RESPONSE_STR)
+    @user = User.new(email:params[:email],
+                     password:params[:password],
+                     password_confirmation:params[:password_confirmation],
+                     phone_number:params[:phone_number],
+                     access_token:params[:access_token])
+    access_token = params[:access_token]
+    str = URI.encode("https://tartan.plaid.com/connect?client_id=#{CLIENT_ID}&secret=#{SECRET}&access_token=#{access_token}")
+    @response = RestClient.get str
+    @user.most_recent_plaid_sync = @response
     if @user.save
       sign_in @user
       flash[:success] = "Welcome to GoodCents!"
       redirect_to @user
     else
-      render 'new'
+      redirect_to root_url, :flash => { :error => 'Error Signing In, Please Try Again'}
     end
-  end  
+  end
 
-  def add_user(type, username, password, email)
+  def add_user
+    type = params[:type]
+    username = params[:username]
+    password = params[:password]
+    email = params[:email]
     post('/connect', type, username, password, email)
-    if @response.code == 201 #mfa      
-      @user.update_attribute(:access_token, JSON.parse(@response)["access_token"])      
-      mfa_post(@response)      
-      @response #temporary!!! 
-    elsif @response.code == 200 #we're good
-      @user.update_attribute(:access_token, JSON.parse(@response)["access_token"])
-      @response
-    else #diagnose the error
-      if !JSON.parse(@response)["message"].nil?
-        flash[:error] = JSON.parse(@response)["message"]
-      else 
-        flash[:error] = "Error with authentication"
+    if @response.code == 201 #mfa
+      mfaType = JSON.parse(@response)["type"]
+      if mfaType == "questions"
+        obj = {}
+        obj["code"] = 201
+        obj["type"] = "questions"
+        obj["question"] = JSON.parse(@response)["mfa"][0]["question"]
+        obj["access_token"] = JSON.parse(@response)["access_token"]
+        render json: obj
       end
-      redirect_to root_url
+    elsif @response.code == 200 #we're good
+      obj = {}
+      obj["code"] = 200
+      obj["access_token"] = JSON.parse(@response)["access_token"]
+      render json: obj
+    else #diagnose the error
+      obj = {}
+      obj["code"] = @response.code
+      obj["message"] = JSON.parse(@response)["message"]
+      obj["resolve"] = JSON.parse(@response)["resolve"]
+      render json: obj
     end
   end
 
-  def mfa_post(response)
-    #get user's answer to current mfa question
-    #mfa post
+  def mfa_step
+    mfa = params[:mfa]
+    access_token = params[:access_token]
+    url = BASE_URL + 'connect/step'
+    @response = RestClient.post url, :client_id => CLIENT_ID, :secret => SECRET, :mfa => mfa, :access_token => access_token
+    if @response.code == 201 #mfa
+      mfaType = JSON.parse(@response)["type"]
+      if mfaType == "questions"
+        obj = {}
+        obj["code"] = 201
+        obj["type"] = "questions"
+        obj["question"] = JSON.parse(@response)["mfa"][0]["question"]
+        obj["access_token"] = JSON.parse(@response)["access_token"]
+        render json: obj
+      end
+    elsif @response.code == 200 #we're good
+      obj = {}
+      obj["code"] = 200
+      obj["access_token"] = JSON.parse(@response)["access_token"]
+      render json: obj
+    else #diagnose the error
+      obj = {}
+      obj["code"] = @response.code
+      obj["message"] = JSON.parse(@response)["message"]
+      obj["resolve"] = JSON.parse(@response)["resolve"]
+      render json: obj
+    end
   end
-
 
   def post(path, type, username, password, email)
     url = BASE_URL + path
@@ -510,11 +548,10 @@ class UsersController < ApplicationController
   end
 
   def update_user_plaid_json(access_token)
-    #str = URI.encode("https://tartan.plaid.com/connect?client_id=#{CLIENT_ID}&secret=#{SECRET}&access_token=#{access_token}")
-    #@response = RestClient.get str
-    #@response
+    str = URI.encode("https://tartan.plaid.com/connect?client_id=#{CLIENT_ID}&secret=#{SECRET}&access_token=#{access_token}")
+    @response = RestClient.get str
+    return @response
     #uncomment the above lines, and delete the below line once mfa is done
-    SAMPLE_JSON_RESPONSE_STR
   end
 
   def get_all_time_cents_count
