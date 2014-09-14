@@ -7,5 +7,3 @@ namespace :venmo do
     end
   end
 end
-
-
