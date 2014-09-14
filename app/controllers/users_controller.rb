@@ -453,7 +453,10 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    @user.update_attribute(:most_recent_plaid_sync, localStorage.get("response_sync"))
+    access_token = params[:access_token]
+    str = URI.encode("https://tartan.plaid.com/connect?client_id=#{CLIENT_ID}&secret=#{SECRET}&access_token=#{access_token}")
+    @response = RestClient.get str
+    @user.update_attribute(:most_recent_plaid_sync, @response)
     if @user.save
       sign_in @user
       flash[:success] = "Welcome to GoodCents!"
@@ -480,7 +483,6 @@ class UsersController < ApplicationController
         render json: obj
       end
     elsif @response.code == 200 #we're good
-      localStorage.setItem("response_sync", @response);
       obj = {}
       obj["code"] = 200
       obj["access_token"] = JSON.parse(@response)["access_token"]
@@ -510,7 +512,6 @@ class UsersController < ApplicationController
         render json: obj
       end
     elsif @response.code == 200 #we're good
-      localStorage.setItem("response_sync", @response);
       obj = {}
       obj["code"] = 200
       obj["access_token"] = JSON.parse(@response)["access_token"]
