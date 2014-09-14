@@ -43,11 +43,11 @@ class User < ActiveRecord::Base
   CLIENT_ID='541377a9a621710000ff3621' 
   SECRET='fkFfK2SBmrsjFipWzFLFzu'
 
-  ACCESS_TOKEN_VENMO='bkd2Yk5b4jEvwmxHvtph2ez6unyB58v6'
+  ACCESS_TOKEN_VENMO='ckMjcrx9ydVyMVTGUN5MnQmgvp6VRvZk'
 
 
   def parsePlaidForUser(access_token)
-    date = (Date.today - 7).to_s
+    date = (Date.yesterday).to_s
     gteString = "\{\"gte\":\"#{date}\"\}"
     str = URI.encode("https://tartan.plaid.com/connect?client_id=#{CLIENT_ID}&secret=#{SECRET}&access_token=#{access_token}&options=#{gteString}")
     @response = RestClient.get str
