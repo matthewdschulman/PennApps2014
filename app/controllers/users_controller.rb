@@ -498,7 +498,7 @@ class UsersController < ApplicationController
     mfa = params[:mfa]
     access_token = params[:access_token]
     url = BASE_URL + '/step'
-    @response = RestClient.post url, :client_id => CLIENT_ID, :secret => SECRET, :mfa => mfa, ,:access_token => access_token
+    @response = RestClient.post url, :client_id => CLIENT_ID, :secret => SECRET, :mfa => mfa, :access_token => access_token
      post('/connect', type, username, password, email)
     if @response.code == 201 #mfa        
       mfaType = JSON.parse(@response)["type"]
