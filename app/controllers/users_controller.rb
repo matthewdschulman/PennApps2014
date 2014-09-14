@@ -8,8 +8,6 @@ class UsersController < ApplicationController
   #obviously move these
   CLIENT_ID='541377a9a621710000ff3621' 
   SECRET='fkFfK2SBmrsjFipWzFLFzu'
-
-  ACCESS_TOKEN='bkd2Yk5b4jEvwmxHvtph2ez6unyB58v6'
   
   def index
     @users = User.paginate(page: params[:page])
@@ -75,22 +73,6 @@ class UsersController < ApplicationController
   end
 
   def edit
-  end
-
-  def get_total_owed(access_token)
-    url = BASE_URL + path
-    @response = RestClient.get url, :client_id => CLIENT_ID, :secret => SECRET, :access_token => access_token, :options => {:gte => Date.now - 7}
-    return @response
-  end
-
-  def charge_user(amount, note, id)
-    url = 'https://api.venmo.com/v1/payments'
-    @response = RestClient.post url, :access_token => ACCESS_TOKEN, :phone => User.find(id).phone_number, :note => note, :amount => amount
-    return @response
-  end
-
-  def format_note(id)
-    return "test note for now"
   end
 
   def update
