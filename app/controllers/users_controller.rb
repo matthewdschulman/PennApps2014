@@ -466,15 +466,7 @@ class UsersController < ApplicationController
           cents = "#{cents}0"
         end
 
-        # if transaction["amount"].to_s.index(".") == nil 
-        #   amount = "#{amount.to_s}.00"
-        # elsif (transaction["amount"].to_s.size - transaction["amount"].to_s.index(".") - 1) == 1
-        #   amount = "#{amount.to_s}0"
-        # end
-
-
-        cur_hash = {:name => transaction["name"], :date => transaction["date"], :amount => amount, :roundup => cents}
-        pp cur_hash
+        cur_hash = {:name => transaction["name"], :date => transaction["date"], :amount => amount, :roundup => cents} 
         transactions_arr << cur_hash
       end
     end
