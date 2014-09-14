@@ -39,6 +39,65 @@ class User < ActiveRecord::Base
     relationships.find_by(followed_id: other_user.id).destroy!
   end
 
+  #obviously move these
+  CLIENT_ID='541377a9a621710000ff3621' 
+  SECRET='fkFfK2SBmrsjFipWzFLFzu'
+
+  ACCESS_TOKEN_VENMO='bkd2Yk5b4jEvwmxHvtph2ez6unyB58v6'
+
+
+  def parsePlaidForUser(access_token)
+    date = (Date.today - 7).to_s
+    gteString = "\{\"gte\":\"#{date}\"\}"
+    str = URI.encode("https://tartan.plaid.com/connect?client_id=#{CLIENT_ID}&secret=#{SECRET}&access_token=#{access_token}&options=#{gteString}")
+    @response = RestClient.get str
+    transactions = JSON.parse(@response)["transactions"]
+    sum = 0.0
+    notes = Hash.new 0.0
+    for t in transactions
+      if t["amount"].to_s.split(".").length > 1 && t["amount"].to_i > 0
+        cents = (t["amount"].to_i + 1 - t["amount"]).round(2)
+        sum += cents
+        if t["category"] == nil
+          notes["Misc"] ? notes["Misc"]+= cents : notes["Misc"]= 0
+        elsif t["category"].include? "Arts and Entertainment"
+          notes["🎨"] ? notes["🎨"]+= cents : notes["🎨"]= 0
+        elsif t["category"].include? "Bank Fees"
+          notes["💳"] ? notes["💳"]+= cents : notes["💳"]= 0
+        elsif t["category"].include? "Community"
+          notes["🏡"] ? notes["🏡"]+= cents : notes["🏡"]= 0
+        elsif t["category"].include? "Food and Drink"
+          notes["🍕"] ? notes["🍕"]+= cents : notes["🍕"]= 0
+        elsif t["category"].include? "Parks and Outdoors"
+          notes["⛺️"] ? notes["⛺️"]+= cents : notes["⛺️"]= 0
+        elsif t["category"].include? "Professional"
+          notes["💉"] ? notes["💉"]+= cents : notes["💉"]= 0
+        elsif t["category"].include? "Service"
+          notes["🔧"] ? notes["🔧"]+= cents : notes["🔧"]= 0
+        elsif t["category"].include? "Shops"
+          notes["🎁"] ? notes["🎁"]+= cents : notes["🎁"]= 0
+        elsif t["category"].include? "Transfer"
+          notes["🔃"] ? notes["🔃"]+= cents : notes["🔃"]= 0
+        elsif t["category"].include? "Travel"
+          notes["✈️"] ? notes["✈️"]+= cents : notes["✈️"]= 0
+        else
+          notes["Misc"] ? notes["Misc"]+= cents : notes["Misc"]= 0
+        end
+      end
+    end
+    return sum, notes
+  end
+
+  def chargeUser(amount, note)
+    url = 'https://api.venmo.com/v1/payments'
+    noteFormat = ""
+    note.each do |key, val|
+      noteFormat += key + " - " + "$" + val.to_s + "\r\n" 
+    end
+    @response = RestClient.post url, :access_token => ACCESS_TOKEN_VENMO, :phone => phone_number, :note => noteFormat, :amount => -amount
+    return @response
+  end
+
 
   private
 
