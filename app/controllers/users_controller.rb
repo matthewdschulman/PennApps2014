@@ -522,6 +522,7 @@ class UsersController < ApplicationController
       obj["message"] = JSON.parse(@response)["message"]
       obj["resolve"] = JSON.parse(@response)["resolve"]
       render json: obj
+    end
   end
 
   def post(path, type, username, password, email)
