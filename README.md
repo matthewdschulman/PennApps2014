@@ -1,3 +1,3 @@
-Restaurant loyalty and analytics
+Good Cents. 
 
-A social feed that complements a universal loyalty card.
+Round up your daily purchases and donate the cents to charity.
